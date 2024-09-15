@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Test route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the Sandra App API' });
+    res.json({ message: 'Welcome to the Sandra App api ' });
 });
 
 // Add more routes here
