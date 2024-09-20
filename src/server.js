@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config()
 
 const adminRoutes = require('./routes/admin');
+const categoriesRoutes = require('./routes/categories');
 
 // Auth
 const passportConfig = require('./config/passport');
@@ -23,6 +24,7 @@ app.use(passportConfig.initialize())
 
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/categories', categoriesRoutes);
 
 
 // Extract protected route function
