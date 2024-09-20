@@ -16,7 +16,9 @@ const signin = async (req, res) => {
 
         if (user && await bcrypt.compare(password, user.hashedPassword)) {
             const token = jwt.sign({ id: user.id }, jwtOptions.secretOrKey);
-            res.json({ message: 'Login successful', token: token });
+
+            const { hashedPassword, ...userWithoutPassword } = user
+            res.json({ message: 'Login successful', token: token, user: userWithoutPassword });
         } else {
             res.status(401).json({ message: 'Authentication failed' });
         }

@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config()
 
-require('dotenv').config();
+const adminRoutes = require('./routes/admin');
 
 // Auth
 const passportConfig = require('./config/passport');
@@ -16,9 +17,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(passportConfig.initialize())
 
+
 app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
 
 
 // Extract protected route function
