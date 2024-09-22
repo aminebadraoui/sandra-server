@@ -122,7 +122,7 @@ model Service {
   mainImage        String
   additionalImages String[]
   status           String                 @default("in_review")
-  adminComment     String?
+  revisionComments Json? // Add this line
 
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt

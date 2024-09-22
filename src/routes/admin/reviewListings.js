@@ -53,7 +53,7 @@ const reviewListing = async (req, res) => {
         }
 
         const { id } = req.params;
-        const { action, comment } = req.body;
+        const { action, comments } = req.body;
 
         const listing = await prisma.service.findUnique({ where: { id } });
 
@@ -71,7 +71,17 @@ const reviewListing = async (req, res) => {
         } else if (action === 'revise') {
             updatedListing = await prisma.service.update({
                 where: { id },
-                data: { status: 'revision_required', adminComment: comment }
+                data: {
+                    status: 'needs_revision',
+                    revisionComments: {
+                        idea: comments.idea || null,
+                        location: comments.location || null,
+                        tag: comments.tag || null,
+                        pricing: comments.pricing || null,
+                        mainImage: comments.mainImage || null,
+                        additionalImages: comments.additionalImages || null
+                    }
+                }
             });
         } else {
             return res.status(400).json({ message: 'Invalid action' });

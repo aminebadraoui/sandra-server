@@ -110,4 +110,77 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const serviceListing = await prisma.service.findUnique({
+            where: { id },
+            include: {
+                serviceTag: {
+                    include: {
+                        category: true
+                    }
+                },
+                user: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                firstName: true,
+                                lastName: true,
+                                email: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if (!serviceListing) {
+            return res.status(404).json({ message: 'Service listing not found' });
+        }
+
+        res.json(serviceListing);
+    } catch (error) {
+        console.error('Error fetching service listing:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        const updatedListing = await prisma.service.update({
+            where: { id },
+            data: {
+                title: updateData.title,
+                description: updateData.description,
+                location: updateData.location,
+                mainImage: updateData.mainImage,
+                additionalImages: updateData.additionalImages,
+                pricing: updateData.pricing,
+                status: updateData.status,
+                currency: updateData.currency,
+                serviceTag: {
+                    connect: { id: updateData.serviceTag }
+                }
+            },
+            include: {
+                serviceTag: {
+                    include: {
+                        category: true
+                    }
+                }
+            }
+        });
+
+        res.json(updatedListing);
+    } catch (error) {
+        console.error('Error updating service listing:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;
