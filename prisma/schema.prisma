@@ -108,17 +108,21 @@ model FavoriteService {
 }
 
 model Service {
-  id           String                 @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String                 @db.ObjectId
-  user         ServiceProviderProfile @relation(fields: [userId], references: [id])
-  title        String
-  description  String
-  currency     String
-  category     String // New field
-  oneTimePrice Float?
-  hourlyPrice  Float?
-  dailyPrice   Float?
-  imageUrls    String[]
+  id               String                 @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String                 @db.ObjectId
+  user             ServiceProviderProfile @relation(fields: [userId], references: [id])
+  title            String
+  description      String
+  location         String
+  category         String
+  tagId            String                 @db.ObjectId
+  serviceTag       ServiceTag             @relation(fields: [tagId], references: [id])
+  currency         String
+  pricing          Json
+  mainImage        String
+  additionalImages String[]
+  status           String                 @default("in_review")
+  adminComment     String?
 
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
@@ -136,6 +140,7 @@ model ServiceTag {
   name       String
   category   ServiceCategory @relation(fields: [categoryId], references: [id])
   categoryId String          @db.ObjectId
+  services   Service[]
 }
 
 model Event {

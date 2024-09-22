@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const adminRoutes = require('./routes/admin');
 const categoriesRoutes = require('./routes/categories');
+const serviceListingsRoutes = require('./routes/serviceListings');
 
 // Auth
 const passportConfig = require('./config/passport');
@@ -25,6 +26,7 @@ app.use(passportConfig.initialize())
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/categories', categoriesRoutes);
+app.use('/service-listings', serviceListingsRoutes);
 
 
 // Extract protected route function
