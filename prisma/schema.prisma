@@ -141,6 +141,8 @@ model ServiceTag {
   category   ServiceCategory @relation(fields: [categoryId], references: [id])
   categoryId String          @db.ObjectId
   services   Service[]
+  events     Event[]         @relation(fields: [eventIds], references: [id])
+  eventIds   String[]        @db.ObjectId
 }
 
 model Event {
@@ -149,8 +151,18 @@ model Event {
   user        OrganizerProfile @relation(fields: [userId], references: [id])
   title       String
   description String
-  category    String // New field
-  imageUrls   String[]
+  dateFrom    DateTime
+  dateTo      DateTime
+  timeFrom    String
+  timeTo      String
+  location    String
+
+  imageUrls     String[]
+  serviceTags   ServiceTag[] @relation(fields: [serviceTagIds], references: [id])
+  serviceTagIds String[]     @db.ObjectId
+
+  status           String @default("in_review")
+  revisionComments Json? // Add this line
 
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt

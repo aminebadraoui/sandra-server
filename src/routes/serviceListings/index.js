@@ -165,7 +165,8 @@ router.put('/:id', async (req, res) => {
                 currency: updateData.currency,
                 serviceTag: {
                     connect: { id: updateData.serviceTag }
-                }
+                },
+                revisionComments: updateData.revisionComments
             },
             include: {
                 serviceTag: {
