@@ -6,6 +6,7 @@ const adminRoutes = require('./routes/admin');
 const categoriesRoutes = require('./routes/categories');
 const serviceListingsRoutes = require('./routes/serviceListings');
 const eventListingRoutes = require('./routes/eventListings');
+const serviceProvidersRouter = require('./routes/serviceProviders');
 
 // Auth
 const passportConfig = require('./config/passport');
@@ -29,6 +30,7 @@ app.use('/admin', adminRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/service-listings', serviceListingsRoutes);
 app.use('/event-listings', eventListingRoutes);
+app.use('/service-providers', serviceProvidersRouter);
 
 
 // Extract protected route function

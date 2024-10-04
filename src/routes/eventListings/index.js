@@ -99,8 +99,10 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), async (req,
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
+        const { id } = req.params;
+
         const eventListing = await prisma.event.findUnique({
-            where: { id: parseInt(req.params.id) },
+            where: { id: String(id) },
             include: {
                 user: {
                     include: {
@@ -160,8 +162,10 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), async (req,
             return res.status(404).json({ message: 'Event listing not found or unauthorized' });
         }
 
+        const { id } = req.params;
+
         const updatedEventListing = await prisma.event.update({
-            where: { id: parseInt(req.params.id) },
+            where: { id: String(id) },
             data: {
                 ...req.body,
                 serviceTags: {
